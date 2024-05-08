@@ -15,12 +15,12 @@ class Post;
 class Comment;
 class Page;
 
-
-
-class App {
+class App
+{
     std::vector<User> listOfUsers;
 
-    void addUser(std::string fullLine) {
+    void addUser(std::string fullLine)
+    {
         std::vector<std::string> splitString = split(fullLine, ';');
 
         int id = std::stoi(splitString[0]);
@@ -29,19 +29,20 @@ class App {
         listOfUsers.emplace_back(User(id, name, tempFriends));
     }
 
-    void initalizeUsers() {
-    std::ifstream usersFile;
-    usersFile.open("Database/Users.txt");
-    std::string line;
-        while(getline (usersFile, line )) {
+    void initalizeUsers()
+    {
+        std::ifstream usersFile;
+        usersFile.open("Database/Users.txt");
+        std::string line;
+        while (getline(usersFile, line))
+        {
             addUser(line);
         }
     }
 
-    public:
-    void run() {
+public:
+    void run()
+    {
         initalizeUsers();
     }
-
-
 };
