@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <unordered_map>
 
 #include "User.hpp"
 #include "Post.hpp"
@@ -19,14 +20,10 @@ class App
 {
     std::vector<User> listOfUsers;
 
-    void addUser(std::string fullLine)
+    User addUser(std::string fullLine)
     {
         std::vector<std::string> splitString = split(fullLine, ';');
-
-        int id = std::stoi(splitString[0]);
-        std::string name = splitString[1];
-        std::vector<std::string> tempFriends = split(splitString[2], ',');
-        listOfUsers.emplace_back(User(id, name, tempFriends));
+        return User(std::stoi(splitString[0]), splitString[1], split(splitString[2], ','));
     }
 
     void initalizeUsers()
@@ -34,9 +31,27 @@ class App
         std::ifstream usersFile;
         usersFile.open("Database/Users.txt");
         std::string line;
+
         while (getline(usersFile, line))
         {
-            addUser(line);
+            listOfUsers.emplace_back(addUser(line));
+        }
+
+    }
+
+    void initalizeFriends() {
+        std::unordered_map<int, User*> userMap; 
+
+        for(auto&user: listOfUsers) {
+            userMap.insert({user.getId(), &user});
+        }
+
+        for(auto &OGuser: listOfUsers) {
+            for(auto &friendId: OGuser.getTempFriends()) {
+                if(userMap.count(std::stoi(friendId))) {
+                    OGuser.addFriend(userMap.at(std::stoi(friendId)));
+                }
+            }
         }
     }
 
@@ -44,5 +59,6 @@ public:
     void run()
     {
         initalizeUsers();
+        initalizeFriends();
     }
 };
