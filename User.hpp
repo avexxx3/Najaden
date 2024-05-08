@@ -14,24 +14,28 @@ class Comment;
 class Page;
 
 class User: public Object {
+    public:
     std::string name;
     std::vector<User*> friends;
     std::vector<Page*> likedPages;
-    std::vector<Post*> posts;
+    std::vector<Post> posts;
     std::vector<std::string> temporaryFriends;
 
 public:
     User(int id, std::string name = "", std::vector<std::string> temporaryFriends = {}):Object(id), name(name), temporaryFriends(temporaryFriends) {}
 
     void addFriend(User* newFriend) {
-        std::cout << name << "\thas added\t" << newFriend->getName() << " as a friend.\n";
+        //std::cout << name << "\thas added\t" << newFriend->getName() << " as a friend.\n";
         friends.emplace_back(newFriend);
     }
 
-
     void likePage(Page* newPage) {
-        std::cout << name << " has liked page: " << newPage->getTitle() << "\n";
+        //std::cout << name << " has liked page: " << newPage->getTitle() << "\n";
         likedPages.emplace_back(newPage);
+    }
+
+    void postPost(Post& post) {
+        posts.emplace_back(post);
     }
 
     std::string getName() const {return name;}
