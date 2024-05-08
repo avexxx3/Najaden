@@ -1,4 +1,4 @@
-<img src="https://github.com/avexxx3/Najaden/blob/master/.github/logo.webp">
+<img src="https://github.com/avexxx3/Ragraa/blob/master/.github/readme-images/logo.webp" width="75">
 
 ## Najaden
 
