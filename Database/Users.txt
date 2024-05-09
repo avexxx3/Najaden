@@ -6,4 +6,4 @@ uID;Name;uID of Friends
 5;Lelouch vi Brittania;2,6;
 6;Affan Saddiqui;3,5;
 7;Azmat Ali;1,4;
-8;Omer Farooq;4,1;
+8;Obaidullah Faisal;4,1;

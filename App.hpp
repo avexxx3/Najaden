@@ -182,15 +182,41 @@ class App
         // std::cout << ".--.      .--.    .-''-.    .---.        _______      ,-----.    ,---.    ,---.    .-''-.   \n|  |_     |  |  .'_ _   \\   | ,_|       /   __  \\   .'  .-,  '.  |    \\  /    |  .'_ _   \\  \n| _( )_   |  | / ( ` )   ',-./  )      | ,_/  \\__) / ,-.|  \\ _ \\ |  ,  \\/  ,  | / ( ` )   '\n|(_ o _)  |  |. (_ o _)  |\\  '_ '`)  ,-./  )      ;  \\  '_ /  | :|  |\\_   /|  |. (_ o _)  | \n| (_,_) \\ |  ||  (_,_)___| > (_)  )  \\  '_ '`)    |  _`,/ \\ _/  ||  _( )_/ |  ||  (_,_)___| \n|  |/    \\|  |'  \\   .---.(  .  .-'   > (_)  )  __: (  '\\_/ \\   ;| (_ o _) |  |'  \\   .---. \n|  '  /\\  `  | \\  `-'    / `-'`-'|___(  .  .-'_/  )\\ `\"/  \\  ) / |  (_,_)  |  | \\  `-'    / \n|    /  \\    |  \\       /   |        \\`-'`-'     /  '. \\_/``\".'  |  |      |  |  \\       /  \n`---'    `---`   `'-..-'    `--------`  `._____.'     '-----'    '--'      '--'   `'-..-'\n\n";
     }
 
+    Page* addPage(std::string newLine) {
+        std::vector<std::string> splitString = split(newLine, ';');
+        
+        int pageID = std::stoi(splitString[0]);
+        int uID = std::stoi(splitString[1]);
+        if(!userMap.count(uID)) return new Page;
+
+        std::string text = splitString[2];
+
+        return new Page(pageID, userMap.at(uID), text);
+    }    
+
+    void initalizePages() {
+        std::ifstream pagesFile;
+        pagesFile.open("Database/Pages.txt");
+        std::string line;
+
+        getline(pagesFile, line);
+
+        while (getline(pagesFile, line))
+        {
+            Page *newPage = addPage(line);
+            pageMap.insert({newPage->getId(), newPage});
+        }
+    }
+    
 public:
     void run()
     {
         printNajaden();      // Print beautiful ship
         initalizeUsers();    // Create users and store the IDs of their friends
+        initalizePages();
         initalizeFriends();  // Use the IDs to get pointer to friend's user
         initalizePosts();    // Store all the relevant information of posts
-        initalizeComments(); // Stores every comment with their respective owner and post
-        // userMap[2]->printHome();
+        initalizeComments(); // Stores every comment with their respective owner and post 
     }
 
     ~App()
