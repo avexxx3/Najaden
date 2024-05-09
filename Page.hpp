@@ -21,7 +21,7 @@ class Page: public Object{
     public:
     Page(int id, User* owner, std::string title): Object(id), owner(owner), title(title) {}
 
-    void addPost(Post* newPost) {sharedPosts.emplace_back(newPost);}
+    void postPost(Post* newPost) {sharedPosts.emplace_back(newPost);}
 
     std::vector<Post*> getPosts() const {return sharedPosts;}
     std::string getTitle() const {return title;}

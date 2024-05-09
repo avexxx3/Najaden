@@ -35,6 +35,21 @@ public:
         posts.emplace_back(post);
     }
 
+    void printHome() {
+        for (auto &user : friends)
+        {
+            for (auto &post : user->getPosts())
+            {
+                std::cout << user->getName() << " posted: \"" << post->getText() << "\"\n";
+                for (auto &comment : post->getComments())
+                {
+                    std::cout << "\t\t" << comment->getAuthor()->getName() << " commented: \"" << comment->getText() << "\"\n";
+                }
+                std::cout << "\n";
+            }
+        }
+    }
+
     std::string getName() const {return name;}
     std::vector<User*> getFriends() const {return friends;}
     std::vector<Page*> getLikedPages() const {return likedPages;}

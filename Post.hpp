@@ -25,14 +25,17 @@ class Post: public Object {
     Post(int id, std::string text, int likes, std::vector<User*> likedBy ,std::string date, int activityType, std::string activityValue):Object(id), text(text), date(date), likes(likes), likedBy(likedBy), activityType(activityType), activityValue(activityValue) {}
 
     void addLike(User* newLike) {
+        if(likes <= 10) {
         likedBy.emplace_back(newLike);
         likes++;
+        } else std::cout << "Reached the limit of likes on postID: " << getId() << '\n';
     }
 
     void addComment(Comment* newComment) {
         if(comments.size() <= 10) comments.emplace_back(newComment);
         else std::cout << "Maximum numbers of comments exceeded for postID: " << getId() << '\n';
     }
+
 
     std::string getText() const {return text;}
     int getLikes() const {return likes;}
