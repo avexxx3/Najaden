@@ -1,4 +1,5 @@
- 1;1;I may or not be having a good day;March 24, 2024;2,3;1;Confused;
- 2;3;You said you wanted to talk but then you left without a trace;May 21, 2024;7,6;
- 3;5;Lelouch vi Britannia orders you, kill yourself;April 11, 2024;1,2,3,4,6,7;3;Chaos;
- 4;5;Checkmate;June 15, 2024;1;4;A successful coup;
+PostID; uID; Text; Date; uID of likers; Activity Type; Activity Value;
+1;1;I may or not be having a good day;March 24, 2024;2,3;1;Confused;
+2;3;You said you wanted to talk but then you left without a trace;May 21, 2024;7,6;
+3;5;Lelouch vi Britannia orders you, kill yourself;April 11, 2024;1,2,3,4,6,7;3;Chaos;
+4;5;Checkmate;June 15, 2024;1;4;A successful coup;
