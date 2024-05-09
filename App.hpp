@@ -18,6 +18,7 @@ class Page;
 
 class App {
     std::unordered_map<int, User*> userMap; //uID, and User
+    std::unordered_map<int, Post*> postMap; //uID, and Post
 
     User* addUser(std::string fullLine)
     {
@@ -84,7 +85,10 @@ class App {
             if(userMap.count(std::stoi(uID))) likedByUsers.emplace_back(userMap.at(std::stoi(uID)));
         }
 
-        userMap.at(owner)->postPost(new Post(id, text, likedByUsers.size(), likedByUsers, date, actType, actValue));
+        Post* newPost = new Post(id, text, likedByUsers.size(), likedByUsers, date, actType, actValue);
+
+        postMap.insert({newPost->getId(), newPost});
+        userMap.at(owner)->postPost(newPost);
     }
 
     void initalizePosts() {
@@ -101,7 +105,36 @@ class App {
         }
     }
 
-    
+    void addComment(std::string fullLine) {
+        std::vector<std::string> splitString = split(fullLine, ';');
+
+        int id = std::stoi(splitString[0]);
+        
+        int postID = std::stoi(splitString[1]);
+        if(!postMap.count(postID)) return;
+
+        int userID = std::stoi(splitString[2]);
+        if(!userMap.count(userID)) return;
+
+        std::string text = splitString[3];
+
+        Comment* newComment = new Comment(id, text, userMap.at(userID));
+        postMap.at(postID)->addComment(newComment);
+    }
+
+    void initalizeComments() {
+        std::ifstream commentsFile;
+        commentsFile.open("Database/Comments.txt");
+        std::string line;
+        
+        getline(commentsFile, line); //To not parse the first line, which contains the format of data
+
+        //Each post (contained in a single line) is divided into parts and created accordingly
+        while (getline(commentsFile, line))
+        {
+            addComment(line);
+        }
+    }
 
 public:
     void run()
@@ -109,7 +142,11 @@ public:
         initalizeUsers();       //Create users and store the IDs of their friends
         initalizeFriends();     //Use the IDs to get pointer to friend's user
         initalizePosts();       //Store all the relevant information of posts
-        
+        initalizeComments();    //Stores every comment with their respective owner and post
+        std::cout << userMap.at(1)->getName() << " posted: \"" << userMap.at(1)->getPosts()[0]->getText() << "\"\n";
+        for(auto &comment: userMap.at(1)->getPosts()[0]->getComments()) {
+            std::cout << "\t\t" << comment->getAuthor()->getName() << " commented: \"" << comment->getText() << "\"\n";
+        }
     }
 
     ~App() {

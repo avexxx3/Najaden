@@ -11,12 +11,13 @@ class User;
 class Post;
 class Page;
 
-class Comment: Object {
+class Comment: public Object {
     std::string text;
-    User* parentUser;
+    User* author;
 
     public:
-    Comment(int id, std::string text, User* parentUser): Object(id), text(text), parentUser(parentUser) {}
+    Comment(int id, std::string text, User* author): Object(id), text(text), author(author) {}
 
     std::string getText() const {return text;}
+    User* getAuthor() const {return author;}
 };
