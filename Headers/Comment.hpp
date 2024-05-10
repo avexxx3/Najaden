@@ -16,8 +16,8 @@ class Comment: public Object {
     User* author;
 
     public:
-    Comment(int id, std::string text, User* author): Object(id), text(text), author(author) {}
-
-    std::string getText() const {return text;}
-    User* getAuthor() const {return author;}
+    Comment(int id, std::string text, User* author);
+    std::string getText() const;
+    User* getAuthor() const;
+    void printComment() const;
 };
