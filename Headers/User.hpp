@@ -24,12 +24,13 @@ public:
     User(int id, std::string name = "", std::string username = "", std::vector<std::string> temporaryFriends = {});
 
     void addFriend(User* newFriend);
-
+    void beSocial();
     void likePage(Page* newPage);
 
     void printHome();
     void showProfile();
     void showFriends();
+    void removeFriend();
     void showPosts(bool = 0);
     void showPages();
     void choosePost();

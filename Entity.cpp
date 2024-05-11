@@ -30,9 +30,9 @@ void User::showProfile()
     while (1)
     {
         system("clear");
-        std::cout << "Press 'q' to go back.\n\n";
+        std::cout << "Press ESC to go back.\n\n";
         std::cout << getName() << "'s Profile\n\n";
         for (auto &post : getPosts()) post->printPost();
-        if(getch() == 'q') break;
+        if(getch() == 27) break;
     }
 }

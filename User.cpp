@@ -1,6 +1,8 @@
 #pragma once
 #include "Headers/User.hpp"
 #include "Headers/Helper.hpp"
+#include "Headers/App.hpp"
+#include <algorithm>
 
 User::User(int id, std::string name, std::string username, std::vector<std::string> temporaryFriends) : Entity(id, name), temporaryFriends(temporaryFriends), username(username) {}
 
@@ -27,37 +29,45 @@ void User::showPosts(bool showId)
 
 void User::choosePost()
 {
-    bool valid = 1;
-    std::string choice;
-    Post* selectedPost = 0;
+    std::string choice = "";
+    Post *selectedPost = 0;
 
     while (1)
     {
         system("clear");
+        std::cout << "Press ESC to go back\n\n";
         showPosts(1);
-        if (valid)
-            std::cout << "\nPlease enter the ID of the post (Enter -1 to exit): ";
-        else
-            std::cout << "\nPlease enter a valid ID (Enter -1 to exit): ";
 
-        std::cin >> choice;
-        if (choice == "-1")
+        std::cout << "\nPlease enter the ID of the post: " << choice;
+
+        char tempInput;
+        tempInput = tolower(getch());
+
+        switch (tempInput)
+        {
+        case 27:
             return;
 
-        if (!isInt(choice))
-        {
-            valid = 0;
+        case 127:
+            choice = choice.substr(0, choice.size() - 1);
             continue;
-        }
+            break;
 
-        valid = 0;
+        case '0' ... '9':
+            choice += tempInput;
+            continue;
+            break;
+
+        default:
+            if (tempInput != 10 || choice.size() == 0)
+                continue;
+        }
 
         for (auto &user : friends)
             for (auto &post : user->getPosts())
                 if (stoi(choice) == post->getId())
                 {
-                    selectedPost = post;
-                    valid = 1;
+                    post->detailedView();
                     break;
                 }
 
@@ -65,83 +75,238 @@ void User::choosePost()
             for (auto &post : page->getPosts())
                 if (stoi(choice) == post->getId())
                 {
-                    selectedPost = post;
-                    valid = 1;
+                    post->detailedView();
                     break;
                 }
 
-        if(valid) break;
+        choice = "";
     }
+}
 
-    selectedPost->detailedView();
+void User::beSocial()
+{
+    std::string choice = "";
+    std::string status = "";
+    while (1)
+    {
+        system("clear");
+        std::cout << "Press ESC to go back\n\n";
+        for (auto &user : App::userMap)
+        {
+            if(user.second->getId() == getId()) continue;
+            bool present = 0;
+            for (auto &realFriend : App::currentUser->getFriends())
+                if (realFriend->getId() == user.second->getId())
+                {
+                    present = 1;
+                    break;
+                }
+
+            if (!present)
+                std::cout << user.first << "\t-\t" << user.second->getName() << '\n';
+        }
+
+        std::cout << "\n\nPlease enter the ID of the friend you want to add: " << choice;
+
+        char tempInput = getch();
+
+        switch (tempInput)
+        {
+        case 27:
+            return;
+
+        case 127:
+            choice = choice.substr(0, choice.size() - 1);
+            continue;
+            break;
+
+        case '0' ... '9':
+            choice += tempInput;
+            continue;
+            break;
+
+        default:
+            if (tempInput != 10 || choice.size() == 0)
+                continue;
+        }
+
+        for (auto &user : App::userMap)
+        {
+            if(user.second->getId() == getId()) continue;
+            if (stoi(choice) == user.second->getId())
+            {
+                status = "";
+                for (auto &existingFriend : App::currentUser->getFriends())
+                {
+                    if (existingFriend->getId() == user.second->getId())
+                    {
+                        status = "The user is already a friend.\n";
+                        break;
+                    }
+                }
+
+                choice = "";
+                if (status == "The user is already a friend.\n")
+                    break;
+
+                App::currentUser->addFriend(user.second);
+                return;
+            }
+
+            status = "User doesn't exist";
+        }
+
+        if (status == "User doesn't exist")
+            choice = "";
+    }
+}
+
+void User::removeFriend()
+{
+    std::string choice = "";
+    std::string status = "";
+    while (1)
+    {
+        system("clear");
+        std::cout << "Press ESC to go back\n\n";
+
+        for (auto &realFriend : friends)
+        {
+            std::cout << realFriend->getId() << "\t-\t" << realFriend->getName() << '\n';
+        }
+
+        std::cout << "\n\nPlease enter the ID of the friend you want to remove: " << choice;
+
+        char tempInput = tolower(getch());
+
+        switch (tempInput)
+        {
+        case 27:
+            return;
+
+        case 127:
+            choice = choice.substr(0, choice.size() - 1);
+            continue;
+            break;
+
+        case '0' ... '9':
+            choice += tempInput;
+            continue;
+            break;
+
+        default:
+            if (tempInput != 10 || choice.size() == 0)
+                continue;
+        }
+
+        for (auto &realFriend : friends)
+        {
+            if (realFriend->getId() == stoi(choice))
+            {
+                friends.erase(std::find(friends.begin(), friends.end(), realFriend));
+                return;
+            }
+        }
+
+        choice = "";
+    }
 }
 
 void User::showFriends()
 {
     char choice;
     bool valid = 1;
+    std::string friendID = "";
     while (1)
     {
         system("clear");
-        std::cout << "Press 'q' to go back.\n";
-        std::cout << "Press 'f' to view a friend's profile.\n\n";
-        std::cout << "Friend's list for " << getName() << "\n\n";
+        std::cout << "Press ESC to go back.\n";
+        if (choice != 'f' || friends.size() == 0)
+        {
+            if(friends.size() != App::userMap.size()) std::cout << "Press 'N' to add a new friend.\n";
+            if (friends.size() != 0)
+            {
+                std::cout << "Press 'R' to remove a friend.\n";
+                std::cout << "Press 'F' to view a friend's profile.\n\n";
+                std::cout << "Friend's list for " << getName() << "\n";
+            }
+            else {
+                std::cout << "\nFriendless :(\n";
+            }
+        }
+
+        std::cout << '\n';
 
         for (auto &buddy : getFriends())
         {
+            if(buddy->getId() == getId()) continue;
             if (choice == 'f')
                 std::cout << buddy->getId() << " - ";
             std::cout << buddy->getName() << "\n";
         }
 
-        if (choice == 'q')
+        if (choice == 27)
             break;
 
-        User *buddyAccount = 0;
-
-        if (choice == 'f')
+        if (choice == 'r' && friends.size() != 0)
         {
-            std::string friendID;
-            if (valid)
-                std::cout << "\nPlease enter the ID of the friend (-1 to exit): ";
-            else
-                std::cout << "\nPlease enter a valid ID (-1 to exit): ";
+            removeFriend();
+            choice = 'a';
+            continue;
+        }
 
-            std::cin >> friendID;
+        if (choice == 'n' && friends.size() != App::userMap.size())
+        {
+            beSocial();
+            choice = 'a';
+            continue;
+        }
 
-            if (friendID == "-1")
+        if (choice == 'f' && friends.size() != 0)
+        {
+            std::cout << "\nPlease enter the ID of the friend you want to view: " << friendID;
+
+            char tempInput;
+            tempInput = getch();
+
+            switch (tempInput)
             {
+            case 27:
                 choice = 'a';
-            }
-
-            if (!isInt(friendID))
-            {
-                valid = 0;
                 continue;
+
+            case 127:
+                friendID = friendID.substr(0, friendID.size() - 1);
+                continue;
+                break;
+
+            case '0' ... '9':
+                friendID += tempInput;
+                continue;
+                break;
+
+            default:
+                if (tempInput != 10 || friendID.size() == 0)
+                    continue;
             }
 
-            valid = 1;
             for (auto &buddy : getFriends())
             {
+                if(buddy->getId() == getId()) continue;
                 if (std::stoi(friendID) == buddy->getId())
                 {
-                    buddyAccount = buddy;
+                    buddy->showProfile();
                     choice = 'a';
-                    valid = 1;
                     break;
                 }
-                valid = 0;
             }
+
+            friendID = "";
         }
 
         else
         {
-            choice = getch();
-        }
-
-        if (valid && buddyAccount != 0)
-        {
-            buddyAccount->showProfile();
+            choice = tolower(getch());
         }
     }
 }
@@ -154,7 +319,7 @@ void User::printHome()
 {
     system("clear");
     std::cout << "Welcome, " << getName() << "\n\n";
-    std::cout << "u: View profile\nf: View friends\nd: View a post in detail\np: View a page\n\n";
+    std::cout << "Press 'U' to view profile.\nPress 'F' to view friends.\nPress 'D' to view a post in detail.\nPress 'P' to view pages\n\n";
     showPosts();
 }
 

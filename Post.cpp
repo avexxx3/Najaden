@@ -33,9 +33,6 @@ void Post::dislike(User *newUser)
 void Post::detailedView()
 {
     char choice;
-    std::string status;
-
-    std::cin.ignore();
 
     bool newLike = 1;
     for (auto &likeUser : likedBy)
@@ -57,47 +54,82 @@ void Post::detailedView()
         }
     }
 
-    while (choice != 'q')
+    std::string comment;
+    while (choice != 27)
     {
         system("clear");
-        std::cout << "q: Go back to home\nc: Comment on the post\n";
-        if(contains) std::cout << "u: Dislike\n\n";
-        else std::cout << "l: Like the post\n\n";
-        std::cout << getId() << " - " << author->getName() << " posted on " << date << ":\n\"" << text << "\"\n";
+        std::cout << "Press ESC to go back.\n";
+
+        if (choice != 'c')
+        {
+            std::cout << "Press 'C' to comment on the post.\n";
+            if (contains)
+                std::cout << "Press 'U' to dislike the post.\n";
+            else
+                std::cout << "Press 'L' to like the post.\n";
+        }
+
+        std::cout << '\n' << getId() << " - " << author->getName() << " posted on " << date << ":\n\"" << text << "\"\n";
 
         for (auto &comment : comments)
         {
             comment->printComment();
         }
 
-        if (likedBy.size() == 0)
-            std::cout << "\nThis post has no likes";
-        else
+        if (choice != 'c')
         {
-            std::cout << "\nLiked by:\n";
-            for (auto &user : likedBy)
-                std::cout << user->getName() << '\n';
+            if (likedBy.size() == 0)
+                std::cout << "\nThis post has no likes";
+            else
+            {
+                std::cout << "\nLiked by:\n";
+                for (auto &user : likedBy)
+                    std::cout << user->getName() << '\n';
+            }
         }
-
-        std::cout << "\n" << status;
-        status = "";
 
         if (choice == 'c')
         {
-            std::string comment;
-            std::cout << "What would you like to comment?\n";
+            std::cout << "\t\t" << App::currentUser->getName() << " commented: \"" << comment << "\"\n\n";
+            char tempInput;
+            tempInput = getch();
 
-            getline(std::cin, comment);
+            switch (tempInput)
+            {
+            case 27:
+            {
+                choice = 'a';
+                comment = "";
+                continue;
+            }
+
+            case 127:
+                comment = comment.substr(0, comment.size() - 1);
+                continue;
+                break;
+
+            case 10:
+                if (comment.size() == 0)
+                    continue;
+                break;
+
+            default:
+                comment += tempInput;
+                continue;
+            }
 
             int i = 1;
             while (App::commentMap.count(i))
                 i++;
             Comment *newComment = new Comment(i, comment, App::currentUser);
             addComment(newComment);
+            comment = "";
         }
 
-        if(choice != 'c') choice = getch();
-        else choice = 'a';
+        if (choice != 'c')
+            choice = getch();
+        else
+            choice = 'a';
 
         if (choice == 'l' && newLike)
         {

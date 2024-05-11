@@ -526,7 +526,7 @@ void App::run()
     initalizePosts();    // Store all the relevant information of posts
     initalizeComments(); // Stores every comment with their respective owner and post
 
-    comeSailAway();
+    // comeSailAway();
     // startupAnimation();
     // loginUser();
     // loginAnimation();
