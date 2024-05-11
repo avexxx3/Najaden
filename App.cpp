@@ -313,10 +313,18 @@ Page *App::addPage(std::string newLine)
     int uID = std::stoi(splitString[1]);
     if (!userMap.count(uID))
         return new Page;
-
     std::string text = splitString[2];
+    std::vector<std::string> likedBy = split(splitString[3], ',');
 
-    return new Page(pageID, userMap.at(uID), text);
+    Page *newPage = new Page(pageID, userMap.at(uID), text);
+
+    for (auto &liker : likedBy)
+    {
+        if (userMap.count(stoi(liker)))
+            userMap.at(stoi(liker))->likePage(newPage);
+    }
+
+    return newPage;
 }
 
 void App::initalizePages()
@@ -520,9 +528,9 @@ App::App()
 
 void App::run()
 {
-    initalizeUsers(); // Create users and store the IDs of their friends
+    initalizeUsers();   // Create users and store the IDs of their friends
+    initalizeFriends(); // Use the IDs to get pointer to friend's user
     initalizePages();
-    initalizeFriends();  // Use the IDs to get pointer to friend's user
     initalizePosts();    // Store all the relevant information of posts
     initalizeComments(); // Stores every comment with their respective owner and post
 

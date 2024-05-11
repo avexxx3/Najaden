@@ -311,8 +311,228 @@ void User::showFriends()
     }
 }
 
+void User::dislikePage() {
+    std::string choice = "";
+    std::string status = "";
+    while (1)
+    {
+        system("clear");
+        std::cout << "Press ESC to go back\n\n";
+
+        for (auto &realFriend : likedPages)
+        {
+            std::cout << realFriend->getId() << "\t-\t" << realFriend->getName() << '\n';
+        }
+
+        std::cout << "\n\nPlease enter the ID of the page you want to dislike: " << choice;
+
+        char tempInput = tolower(getch());
+
+        switch (tempInput)
+        {
+        case 27:
+            return;
+
+        case 127:
+            choice = choice.substr(0, choice.size() - 1);
+            continue;
+            break;
+
+        case '0' ... '9':
+            choice += tempInput;
+            continue;
+            break;
+
+        default:
+            if (tempInput != 10 || choice.size() == 0)
+                continue;
+        }
+
+        for (auto &realFriend : likedPages)
+        {
+            if (realFriend->getId() == stoi(choice))
+            {
+                likedPages.erase(std::find(likedPages.begin(), likedPages.end(), realFriend));
+                return;
+            }
+        }
+
+        choice = "";
+    }
+}
+
+void User::becomeHim() {
+    std::string choice = "";
+    std::string status = "";
+    while (1)
+    {
+        system("clear");
+        std::cout << "Press ESC to go back\n\n";
+        for (auto &user : App::pageMap)
+        {
+            if(user.second->getId() == getId()) continue;
+            bool present = 0;
+            for (auto &realFriend : likedPages)
+                if (realFriend->getId() == user.second->getId())
+                {
+                    present = 1;
+                    break;
+                }
+
+            if (!present)
+                std::cout << user.first << "\t-\t" << user.second->getName() << '\n';
+        }
+
+        std::cout << "\n\nPlease enter the ID of the page you want to like: " << choice;
+
+        char tempInput = getch();
+
+        switch (tempInput)
+        {
+        case 27:
+            return;
+
+        case 127:
+            choice = choice.substr(0, choice.size() - 1);
+            continue;
+            break;
+
+        case '0' ... '9':
+            choice += tempInput;
+            continue;
+            break;
+
+        default:
+            if (tempInput != 10 || choice.size() == 0)
+                continue;
+        }
+
+        for (auto &user : App::pageMap)
+        {
+            if(user.second->getId() == getId()) continue;
+            if (stoi(choice) == user.second->getId())
+            {
+                status = "";
+                for (auto &existingFriend : likedPages)
+                {
+                    if (existingFriend->getId() == user.second->getId())
+                    {
+                        status = "The user is already a friend.\n";
+                        break;
+                    }
+                }
+
+                choice = "";
+                if (status == "The user is already a friend.\n")
+                    break;
+
+                likePage(user.second);
+                return;
+            }
+
+            status = "User doesn't exist";
+        }
+
+        if (status == "User doesn't exist")
+            choice = "";
+    }
+}
+
 void User::showPages()
 {
+    char choice;
+    bool valid = 1;
+    std::string pageID = "";
+    while (1)
+    {
+        system("clear");
+        std::cout << "Press ESC to go back.\n";
+        if (choice != 'f' || likedPages.size() == 0)
+        {
+            if(likedPages.size() != App::pageMap.size()) std::cout << "Press 'N' to like a new page.\n";
+            if (likedPages.size() != 0)
+            {
+                std::cout << "Press 'R' to dislike a page.\n";
+                std::cout << "Press 'F' to view a page's posts.\n\n";
+                std::cout << "Liked page's list for " << getName() << "\n";
+            }
+            else {
+                std::cout << "\nSocially inept :(\n";
+            }
+        }
+
+        std::cout << '\n';
+
+        for (auto &page : likedPages)
+        {
+            if (choice == 'f')
+                std::cout << page->getId() << " - ";
+            std::cout << page->getName() << ": Owned by " << page->getOwner()->getName() << '\n';
+        }
+
+        if (choice == 27)
+            break;
+
+        if (choice == 'r' && friends.size() != 0)
+        {
+            dislikePage();
+            choice = 'a';
+            continue;
+        }
+
+        if (choice == 'n' && friends.size() != App::userMap.size())
+        {
+            becomeHim();
+            choice = 'a';
+            continue;
+        }
+
+        if (choice == 'f' && friends.size() != 0)
+        {
+            std::cout << "\nPlease enter the ID of the page you want to view: " << pageID;
+
+            char tempInput;
+            tempInput = getch();
+
+            switch (tempInput)
+            {
+            case 27:
+                choice = 'a';
+                continue;
+
+            case 127:
+                pageID = pageID.substr(0, pageID.size() - 1);
+                continue;
+                break;
+
+            case '0' ... '9':
+                pageID += tempInput;
+                continue;
+                break;
+
+            default:
+                if (tempInput != 10 || pageID.size() == 0)
+                    continue;
+            }
+
+            for (auto &page: likedPages)
+            {
+                if (std::stoi(pageID) == page->getId())
+                {
+                    page->showProfile();
+                    choice = 'a';
+                    break;
+                }
+            }
+
+            pageID = "";
+        }
+
+        else
+        {
+            choice = tolower(getch());
+        }
+    }
 }
 
 void User::printHome()

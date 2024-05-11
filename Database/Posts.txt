@@ -7,3 +7,5 @@ PostID; authorID; Text; Date; uID of likers; Activity Type; Activity Value;
 
 PAGES
 6;1;Please gather accordingly;Today;1,2,3;
+7;2;My soldiers, rage;Today;2,3,4;
+8;3;I am in no way racist;Today;3,4,5;

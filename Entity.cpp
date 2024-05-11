@@ -25,7 +25,7 @@ std::string Entity::getType() const {
     return type;
 }
 
-void User::showProfile()
+void Entity::showProfile()
 {
     while (1)
     {

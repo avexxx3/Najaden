@@ -28,11 +28,12 @@ public:
     void likePage(Page* newPage);
 
     void printHome();
-    void showProfile();
     void showFriends();
     void removeFriend();
     void showPosts(bool = 0);
     void showPages();
+    void dislikePage();
+    void becomeHim();
     void choosePost();
 
     std::vector<User*> getFriends() const;
