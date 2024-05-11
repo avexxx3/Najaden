@@ -1,9 +1,9 @@
-uID;Name;uID of Friends
-1;George;4,7;
-2;Vania Rehan;1,3;
-3;Marium Yousuf;5,3;
-4;Armaghan Atiq;4,1;
-5;Lelouch vi Brittania;2,6;
-6;Affan Saddiqui;3,5;
-7;Azmat Ali;1,4;
-8;Obaidullah Faisal;4,1;
+uID;Name;Username;Password;uID of Friends;Liked pages
+1;George;georgie;123;4,7;
+2;Vania Rehan;beef;123;1,3;
+3;Marium Yousuf;sleepy;123;5,3;
+4;Armaghan Atiq;avex;123;4,1;
+5;Lelouch vi Brittania;zero;123;2,6;
+6;Affan Saddiqui;affxn;123;3,5;
+7;Azmat Ali;epic;123;1,4;
+8;Obaidullah Faisal;nexus;123;4,1;

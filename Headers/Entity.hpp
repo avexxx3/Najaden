@@ -14,13 +14,13 @@ class Entity : public Object
 {
     std::string name;
     std::vector<Post *> posts;
+    std::string type;
 
 public:
-    Entity(int id = 0, std::string name = "");
-
+    Entity(int id = 0, std::string name = "", std::string type = "");
     void postPost(Post *post);
-
     std::string getName() const;
-
     std::vector<Post *> getPosts() const;
+    std::string getType() const;
+    void showProfile();
 };

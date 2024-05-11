@@ -26,10 +26,13 @@ class Post : public Object
 public:
     Post(int id, std::string text, int likes, Entity* author, std::vector<User *> likedBy, std::string date, int activityType, std::string activityValue);
 
-    void printPost();
+    void printPost(bool = 0);
 
     void addLike(User *newLike);
     void addComment(Comment *newComment);
+    void detailedView();
+
+    void dislike(User*);
 
     std::string getText() const;
     int getLikes() const;
