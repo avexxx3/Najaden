@@ -13,9 +13,17 @@ class Helper
     Helper();
 
     public:
+
+    void writeUsers();
+    void writePages();
+    void writePosts();
+    void writeComments();
+    void writeData();
+
     std::vector<std::string> split(const std::string&, char);
     char getch(void);
     static Helper* getInstance();
+    Date* getCurrentDate();
 };
 
 Helper* Helper::helperInstance = 0;

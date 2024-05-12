@@ -6,6 +6,7 @@
 #include "Page.cpp"
 #include "Post.cpp"
 #include "User.cpp"
+#include "Date.cpp"
 
 int main()
 {

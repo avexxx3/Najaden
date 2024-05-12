@@ -140,16 +140,18 @@ void App::addPost(std::string fullLine, bool isPage)
         author = userMap.at(owner);
 
     std::string text = splitString[2];
-    std::string date = splitString[3];
-    std::vector<std::string> likedBy = Helper::getInstance()->split(splitString[4], ','); // Get the uID of all post likers
+    bool isMemory;
+    if(splitString[3] == "0") isMemory = 0; else isMemory = 1; 
+    std::string dateText = splitString[4];
+    std::vector<std::string> likedBy = Helper::getInstance()->split(splitString[5], ','); // Get the uID of all post likers
     int actType = 0;
     std::string actValue = "";
 
     // Not all posts contain activities
-    if (splitString.size() == 7)
+    if (splitString.size() == 8)
     {
-        actType = std::stoi(splitString[5]);
-        actValue = splitString[6];
+        actType = std::stoi(splitString[6]);
+        actValue = splitString[7];
     }
 
     // If the uID of the user liking the post exists, it is added to the list
@@ -160,7 +162,9 @@ void App::addPost(std::string fullLine, bool isPage)
             likedByUsers.emplace_back(userMap.at(std::stoi(uID)));
     }
 
-    Post *newPost = new Post(id, text, likedByUsers.size(), author, likedByUsers, date, actType, actValue);
+    Date* date = new Date(stoi(dateText.substr(0, 2)), stoi(dateText.substr(2, 2)), stoi(dateText.substr(4, 2)), stoi(dateText.substr(6, 2)), stoi(dateText.substr(8, 2)));
+
+    Post *newPost = new Post(id, text, likedByUsers.size(), author, likedByUsers, date, actType, actValue, isMemory);
 
     postMap.insert({newPost->getId(), newPost});
     if (isPage)
@@ -225,151 +229,6 @@ void App::cacheData()
     initalizeComments();
 }
 
-void App::writeUsers()
-{
-    std::ofstream myFile("Database/Users.txt", std::ofstream::trunc);
-    myFile << "uID;Name;Username;Password;uID of Friends;\n";
-
-    for (auto &user : userMap)
-    {
-        std::string write = "";
-        write += std::to_string(user.first);
-        write += ';';
-        write += user.second->getName();
-        write += ';';
-        write += user.second->getUsername();
-        write += ';';
-        write += loginMap.at(user.second->getUsername()).password;
-        write += ';';
-        int counter = 0, countFriends = user.second->getFriends().size();
-        for (auto &buddy : user.second->getFriends())
-        {
-            write += std::to_string(buddy->getId());
-            counter++;
-            if (counter != countFriends)
-                write += ',';
-        }
-        write += ";\n";
-
-        myFile << write;
-    }
-
-    myFile.close();
-}
-
-void App::writePages() {
-    std::ofstream myFile("Database/Pages.txt", std::ofstream::trunc);
-    myFile << "PageID;Owner uID;Title;Liked by;\n";
-
-    for(auto &page: pageMap) {
-        std::string write = "";
-        write += std::to_string(page.second->getId());
-        write += ';';
-        write += std::to_string(page.second->getOwner()->getId());
-        write += ';';
-        write += page.second->getName();
-        write += ';';
-        int counter=0, likedSize = page.second->getLikes();
-        for(auto &user: userMap) {
-            for(auto &likedPage: user.second->getLikedPages()) {
-                if(page.second->getId() == likedPage->getId()) {
-                    write += std::to_string(user.second->getId());
-                    counter++;
-                    if(counter != likedSize) write += ',';
-                }
-            }
-        }
-        write += ";\n";
-        myFile << write;
-    }
-    myFile.close();
-}
-
-void App::writePosts() {
-    std::ofstream myFile("Database/Posts.txt", std::ofstream::trunc);
-    myFile << "PostID; authorID; Text; Date; uID of likers; Activity Type; Activity Value;\n";
-    
-    for(auto &post: postMap) {
-        if(post.second->getAuthor()->getType() != "User") continue;
-        std::string write = "";
-        write += std::to_string(post.second->getId());
-        write += ';';
-        write += std::to_string(post.second->getAuthor()->getId());
-        write += ';';
-        write += post.second->getText();
-        write += ';';
-        write += post.second->getDate();
-        write += ';';
-        int counter = 0, likeSize = post.second->getLikes();
-        for(auto& buddy: post.second->getLikedBy()) {
-            write += std::to_string(buddy->getId());
-            counter++;
-            if(counter != likeSize) write += ',';
-        }
-
-        if(post.second->getActivityValue() != "" && post.second->getActivityType() != 0) {
-            write += ';';
-            write += std::to_string(post.second->getActivityType());
-            write += ';';
-            write += post.second->getActivityValue();
-        }
-        write += ";\n";
-        myFile << write;
-    }
-
-    myFile << "\nPAGES\n";
-
-    for(auto &post: postMap) {
-        if(post.second->getAuthor()->getType() != "Page") continue;
-        std::string write = "";
-        write += std::to_string(post.second->getId());
-        write += ';';
-        write += std::to_string(post.second->getAuthor()->getId());
-        write += ';';
-        write += post.second->getText();
-        write += ';';
-        write += post.second->getDate();
-        write += ';';
-        int counter = 0, likeSize = post.second->getLikes();
-        for(auto& buddy: post.second->getLikedBy()) {
-            write += std::to_string(buddy->getId());
-            counter++;
-            if(counter != likeSize) write += ',';
-        }
-
-        if(post.second->getActivityValue() != "" && post.second->getActivityType() != 0) {
-            write += ';';
-            write += std::to_string(post.second->getActivityType());
-            write += ';';
-            write += post.second->getActivityValue();
-        }
-        write += ";\n";
-        myFile << write;
-    }
-
-    myFile.close();
-}
-
-void App::writeComments() {
-    std::ofstream myFile("Database/Comments.txt", std::ofstream::trunc);
-    myFile << "CommentID; PostID; UserID; Text;\n";
-    for(auto &post: postMap) {
-        for(auto &comment: post.second->getComments()) {
-            std::string write = "";
-            write += std::to_string(comment->getId());
-            write += ';';
-            write += std::to_string(post.second->getId());
-            write += ';';
-            write += std::to_string(comment->getAuthor()->getId());
-            write += ';';
-            write += comment->getText();
-            write += ";\n";
-            myFile << write;
-        }
-    }
-    myFile.close();
-}
-
 void App::appLoop()
 {
     while (1)
@@ -397,6 +256,11 @@ void App::appLoop()
             break;
         }
 
+        case 27: {
+            Helper::getInstance()->writeData();
+            break;
+        }
+
         case 'p':
         {
             currentUser->showPages();
@@ -411,7 +275,6 @@ void App::appLoop()
 void App::run()
 {
     cacheData();
-    login.loginScreen();
     currentUser = userMap.at(2);
     appLoop();
 }

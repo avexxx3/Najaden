@@ -28,7 +28,7 @@ class User : public Entity
     void dislikePagesMenu();
 
     
-    void showPosts(bool = 0);
+    void showPosts(bool = 0, bool = 0);
 
 public:
     User(int, std::string = "", std::string = "", std::vector<std::string> = {});
@@ -37,6 +37,8 @@ public:
     
     void showFriends();
     void showPages();
+
+    void showProfile();
 
     void chooseDetailedPost();
 

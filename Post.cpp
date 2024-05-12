@@ -3,8 +3,8 @@
 #include "Headers/App.hpp"
 #include <algorithm>
 
-Post::Post(int id, std::string text, int likes, Entity *author, std::vector<User *> likedBy, std::string date, int activityType, std::string activityValue)
-    : Object(id), text(text), date(date), likes(likes), author(author), likedBy(likedBy), activityType(activityType), activityValue(activityValue) {}
+Post::Post(int id, std::string text, int likes, Entity *author, std::vector<User *> likedBy, Date* date, int activityType, std::string activityValue, bool isMemory)
+    : Object(id), text(text), date(date), likes(likes), author(author), likedBy(likedBy), activityType(activityType), activityValue(activityValue), isMemory(isMemory) {}
 
 void Post::addLike(User *newLike)
 {
@@ -24,6 +24,7 @@ void Post::addComment(Comment *newComment)
 void Post::removeLike(User *newUser)
 {
     likedBy.erase(std::find(likedBy.begin(), likedBy.end(), newUser));
+    if(likes >= 0) likes--;
 }
 
 void Post::showDetailedView()
@@ -65,7 +66,7 @@ void Post::showDetailedView()
                 std::cout << "Press 'L' to like the post.\n";
         }
 
-        std::cout << '\n' << getId() << " - " << author->getName() << " posted on " << date << ":\n\"" << text << "\"\n";
+        std::cout << '\n' << getId() << " - " << author->getName() << " posted on " << date->getFormattedDate() << ":\n\"" << text << "\"\n";
 
         for (auto &comment : comments)
         {
@@ -153,16 +154,35 @@ void Post::showDetailedView()
     }
 }
 
-void Post::printPost(bool showId)
+void Post::printPost(bool showId, bool self)
 {
     if (showId)
         std::cout << getId() << " - ";
-    std::cout << author->getName() << " posted on " << date << ":\n\"" << text << "\"\n";
+    
+    if(self) std::cout << "You ";
+    else std::cout << author->getName() << ' '; 
+
+    //1. Feeling\n2. Thinking about\n3. Making\n4. Celebrating
+    if(activityType != 0 && activityValue != "") {
+        if(self) std::cout << "are "; else std::cout << "is ";
+        switch(activityType) {
+            case 1: std::cout << "feeling"; break;
+            case 2: std::cout << "thinking about"; break;
+            case 3: std::cout << "making"; break;
+            case 4: std::cout << "celebrating"; break;
+        }
+        std::cout << " " << activityValue;
+    }
+    else std::cout << "posted";
+    std::cout << " on " << date->getFormattedDate() << ":\n\"" << text << "\"\n";
+
+
     for (auto &comment : comments)
     {
         comment->printComment();
     }
-    std::cout << "\n";
+    std::cout << "Likes: " << likes;
+    std::cout << "\n\n";
 }
 
 Entity* Post::getAuthor() const {
@@ -189,7 +209,7 @@ std::vector<Comment *> Post::getComments() const
     return comments;
 }
 
-std::string Post::getDate() const
+Date* Post::getDate() const
 {
     return date;
 }
@@ -197,6 +217,14 @@ std::string Post::getDate() const
 int Post::getActivityType() const
 {
     return activityType;
+}
+
+bool Post::getMemory() const {
+    return isMemory;
+}
+
+void Post::setMemory() {
+    isMemory = 1;
 }
 
 std::string Post::getActivityValue() const

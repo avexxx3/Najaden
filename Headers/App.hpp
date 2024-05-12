@@ -29,11 +29,6 @@ class App
 
     void cacheData();
 
-    void writeUsers();
-    void writePages();
-    void writePosts();
-    void writeComments();
-
     void appLoop();
 
 
