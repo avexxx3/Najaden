@@ -15,6 +15,8 @@ std::vector<std::string> Helper::split(const std::string &s, char delim)
     return result;
 }
 
+Helper::Helper() {}
+
 char Helper::getch(void) {
     char buf = 0;
         struct termios old = {0};
