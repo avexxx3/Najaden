@@ -102,7 +102,7 @@ void App::initalizePages()
 
 void App::addUser(std::string fullLine)
 {
-    std::vector<std::string> splitString = split(fullLine, ';');
+    std::vector<std::string> splitString = Helper::getInstance()->split(fullLine, ';');
     std::vector<std::string> splitFriends;
 
     if (splitString.size() <= 1)
@@ -114,16 +114,17 @@ void App::addUser(std::string fullLine)
     std::string password = splitString[3];
 
     if (splitString.size() == 5)
-        splitFriends = split(splitString[4], ',');
+        splitFriends = Helper::getInstance()->split(splitString[4], ',');
+        
     loginMap.insert({username, LoginData(id, password)});
 
-    User* newUser = new User(id, name, username, splitFriends);
+    User *newUser = new User(id, name, username, splitFriends);
     userMap.insert({newUser->getId(), newUser});
 }
 
 void App::addPost(std::string fullLine, bool isPage)
 {
-    std::vector<std::string> splitString = split(fullLine, ';');
+    std::vector<std::string> splitString = Helper::getInstance()->split(fullLine, ';');
 
     int id = std::stoi(splitString[0]);
 
@@ -140,7 +141,7 @@ void App::addPost(std::string fullLine, bool isPage)
 
     std::string text = splitString[2];
     std::string date = splitString[3];
-    std::vector<std::string> likedBy = split(splitString[4], ','); // Get the uID of all post likers
+    std::vector<std::string> likedBy = Helper::getInstance()->split(splitString[4], ','); // Get the uID of all post likers
     int actType = 0;
     std::string actValue = "";
 
@@ -170,7 +171,7 @@ void App::addPost(std::string fullLine, bool isPage)
 
 void App::addComment(std::string fullLine, bool isPage)
 {
-    std::vector<std::string> splitString = split(fullLine, ';');
+    std::vector<std::string> splitString = Helper::getInstance()->split(fullLine, ';');
 
     int id = std::stoi(splitString[0]);
 
@@ -194,7 +195,7 @@ void App::addComment(std::string fullLine, bool isPage)
 
 void App::addPage(std::string newLine)
 {
-    std::vector<std::string> splitString = split(newLine, ';');
+    std::vector<std::string> splitString = Helper::getInstance()->split(newLine, ';');
 
     int pageID = std::stoi(splitString[0]);
     int uID = std::stoi(splitString[1]);
@@ -202,7 +203,7 @@ void App::addPage(std::string newLine)
         return;
 
     std::string text = splitString[2];
-    std::vector<std::string> likedBy = split(splitString[3], ',');
+    std::vector<std::string> likedBy = Helper::getInstance()->split(splitString[3], ',');
 
     Page *newPage = new Page(pageID, userMap.at(uID), text);
 
@@ -215,7 +216,8 @@ void App::addPage(std::string newLine)
     pageMap.insert({newPage->getId(), newPage});
 }
 
-void App::cacheData() {
+void App::cacheData()
+{
     initalizeUsers();
     initalizeFriends();
     initalizePages();
@@ -228,7 +230,7 @@ void App::appLoop()
     while (1)
     {
         currentUser->printHome();
-        char choice = getch();
+        char choice = tolower(Helper::getInstance()->getch());
 
         switch (choice)
         {
@@ -276,6 +278,6 @@ App::~App()
         delete post.second;
     for (auto &page : pageMap)
         delete page.second;
-    for(auto &comment : commentMap)
+    for (auto &comment : commentMap)
         delete comment.second;
 }

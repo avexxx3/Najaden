@@ -92,7 +92,7 @@ void Post::showDetailedView()
         {
             std::cout << "\t\t" << App::currentUser->getName() << " commented: \"" << comment << "\"\n\n";
             char tempInput;
-            tempInput = getch();
+            tempInput = Helper::getInstance()->getch();
 
             switch (tempInput)
             {
@@ -127,7 +127,7 @@ void Post::showDetailedView()
         }
 
         if (choice != 'c')
-            choice = getch();
+            choice = tolower(Helper::getInstance()->getch());
         else
             choice = 'a';
 
