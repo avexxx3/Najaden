@@ -29,7 +29,13 @@ class App
 
     void cacheData();
 
+    void writeUsers();
+    void writePages();
+    void writePosts();
+    void writeComments();
+
     void appLoop();
+
 
 public:
     static std::unordered_map<int, User *> userMap; // uID, and User

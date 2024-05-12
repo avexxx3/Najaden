@@ -31,6 +31,7 @@ public:
 
     void showDetailedView();
 
+    Entity* getAuthor() const;
     std::string getText() const;
     int getLikes() const;
     std::vector<User *> getLikedBy() const;

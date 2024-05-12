@@ -1,7 +1,7 @@
 CommentID; PostID; UserID; Text;
-1;2;4;Real asf
-2;5;2;I was crazy once
-3;3;4;KINOOOOOOO
-4;1;4;What's wrong my dear?
-5;1;5;Kill all the Japanese
-6;1;8;Back to the cottonfields
+2;5;2;I was crazy once;
+3;3;4;KINOOOOOOO;
+1;2;4;Real asf;
+4;1;4;What's wrong my dear?;
+5;1;5;Kill all the Japanese;
+6;1;8;Back to the cottonfields;

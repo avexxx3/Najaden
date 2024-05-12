@@ -165,6 +165,10 @@ void Post::printPost(bool showId)
     std::cout << "\n";
 }
 
+Entity* Post::getAuthor() const {
+    return author;
+}
+
 std::string Post::getText() const
 {
     return text;

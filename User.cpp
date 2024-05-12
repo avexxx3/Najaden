@@ -4,7 +4,8 @@
 #include "Headers/App.hpp"
 #include <algorithm>
 
-User::User(int id, std::string name, std::string username, std::vector<std::string> temporaryFriends) : Entity(id, name), temporaryFriends(temporaryFriends), username(username) {}
+User::User(int id, std::string name, std::string username, std::vector<std::string> temporaryFriends)
+: Entity(id, name, "User"), temporaryFriends(temporaryFriends), username(username) {}
 
 void User::addFriend(User *newFriend)
 {
