@@ -7,8 +7,8 @@
 #include "Headers/Post.hpp"
 #include "Headers/User.hpp"
 
-Page::Page(int id, User *owner, std::string title)
-    : Entity(id, title), owner(owner) {}
+Page::Page(int id, User *owner, std::string title, int likes)
+    : Entity(id, title), owner(owner), likes(likes) {}
 
 int Page::getLikes() const
 {

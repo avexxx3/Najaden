@@ -14,7 +14,7 @@ class Page : public Entity
     int likes;
 
 public:
-    Page(int = 0, User * = 0, std::string = "");
+    Page(int = 0, User * = 0, std::string = "", int = 0);
 
     int getLikes() const;
     User *getOwner() const;
