@@ -24,7 +24,7 @@ public:
     User(int id, std::string name = "", std::string username = "", std::vector<std::string> temporaryFriends = {});
 
     void addFriend(User* newFriend);
-    void beSocial();
+    void makeFriends();
     void likePage(Page* newPage);
 
     void printHome();
@@ -33,7 +33,7 @@ public:
     void showPosts(bool = 0);
     void showPages();
     void dislikePage();
-    void becomeHim();
+    void pagesMenu();
     void choosePost();
 
     std::vector<User*> getFriends() const;

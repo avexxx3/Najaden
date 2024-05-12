@@ -83,7 +83,7 @@ void User::choosePost()
     }
 }
 
-void User::beSocial()
+void User::makeFriends()
 {
     std::string choice = "";
     std::string status = "";
@@ -257,7 +257,7 @@ void User::showFriends()
 
         if (choice == 'n' && friends.size() != App::userMap.size())
         {
-            beSocial();
+            makeFriends();
             choice = 'a';
             continue;
         }
@@ -361,7 +361,7 @@ void User::dislikePage() {
     }
 }
 
-void User::becomeHim() {
+void User::pagesMenu() {
     std::string choice = "";
     std::string status = "";
     while (1)
@@ -482,7 +482,7 @@ void User::showPages()
 
         if (choice == 'n' && friends.size() != App::userMap.size())
         {
-            becomeHim();
+            pagesMenu();
             choice = 'a';
             continue;
         }
