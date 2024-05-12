@@ -8,21 +8,17 @@ Post::Post(int id, std::string text, int likes, Entity *author, std::vector<User
 
 void Post::addLike(User *newLike)
 {
-    if (likes <= 10)
+    if (likes < 10)
     {
         likedBy.emplace_back(newLike);
         likes++;
     }
-    else
-        std::cout << "Reached the limit of likes on postID: " << getId() << '\n';
 }
 
 void Post::addComment(Comment *newComment)
 {
-    if (comments.size() <= 10)
+    if (comments.size() < 10)
         comments.emplace_back(newComment);
-    else
-        std::cout << "Maximum numbers of comments exceeded for postID: " << getId() << '\n';
 }
 
 void Post::removeLike(User *newUser)
@@ -62,7 +58,7 @@ void Post::showDetailedView()
 
         if (choice != 'c')
         {
-            std::cout << "Press 'C' to comment on the post.\n";
+            if(comments.size() != 10) std::cout << "Press 'C' to comment on the post.\n";
             if (contains)
                 std::cout << "Press 'U' to dislike the post.\n";
             else
@@ -90,6 +86,11 @@ void Post::showDetailedView()
 
         if (choice == 'c')
         {
+            if(comments.size() == 10) {
+                choice = 'a';
+                continue;
+            }
+
             std::cout << "\t\t" << App::currentUser->getName() << " commented: \"" << comment << "\"\n\n";
             char tempInput;
             tempInput = Helper::getInstance()->getch();
@@ -128,6 +129,7 @@ void Post::showDetailedView()
 
         if (choice != 'c')
             choice = tolower(Helper::getInstance()->getch());
+
         else
             choice = 'a';
 
