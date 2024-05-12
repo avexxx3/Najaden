@@ -21,9 +21,12 @@ class Login
     void comeSailAway();
     void printNajaden(int = -1, std::string = "", int = 0, int = 0);
     void printLogin(int = 7);
+
+    bool promptCreate();
+
     void startupAnimation();
     void loginAnimation();
-    bool promptCreate();
+
     void loginUser();
 
 public:

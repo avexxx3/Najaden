@@ -9,7 +9,7 @@
 
 Entity::Entity(int id, std::string name, std::string type): Object(id), name(name), type(type) {}
 
-void Entity::postPost(Post *post) {
+void Entity::addPost(Post *post) {
     posts.emplace_back(post);
 }
 
@@ -33,6 +33,6 @@ void Entity::showProfile()
         std::cout << "Press ESC to go back.\n\n";
         std::cout << getName() << "'s Profile\n\n";
         for (auto &post : getPosts()) post->printPost();
-        if(getch() == 27) break;
+        if(Helper::getInstance()->getch() == 27) break;
     }
 }

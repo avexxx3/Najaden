@@ -10,10 +10,6 @@
 #include "Headers/Login.hpp"
 #include <math.h>
 
-App::App()
-{
-}
-
 void App::initalizeUsers()
 {
     std::ifstream usersFile;
@@ -167,9 +163,9 @@ void App::addPost(std::string fullLine, bool isPage)
 
     postMap.insert({newPost->getId(), newPost});
     if (isPage)
-        pageMap.at(owner)->postPost(newPost);
+        pageMap.at(owner)->addPost(newPost);
     else
-        userMap.at(owner)->postPost(newPost);
+        userMap.at(owner)->addPost(newPost);
 }
 
 void App::addComment(std::string fullLine, bool isPage)
@@ -250,7 +246,7 @@ void App::appLoop()
 
         case 'd':
         {
-            currentUser->choosePost();
+            currentUser->chooseDetailedPost();
             break;
         }
 

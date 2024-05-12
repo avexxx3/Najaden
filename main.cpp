@@ -1,5 +1,3 @@
-#include "Headers/App.hpp"
-
 #include "Entity.cpp"
 #include "App.cpp"
 #include "Comment.cpp"
@@ -9,8 +7,8 @@
 #include "Post.cpp"
 #include "User.cpp"
 
-
-int main(){
+int main()
+{
     App app;
     app.run();
 }

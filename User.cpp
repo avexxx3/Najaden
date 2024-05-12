@@ -27,7 +27,7 @@ void User::showPosts(bool showId)
             post->printPost(showId);
 }
 
-void User::choosePost()
+void User::chooseDetailedPost()
 {
     std::string choice = "";
     Post *selectedPost = 0;
@@ -41,7 +41,7 @@ void User::choosePost()
         std::cout << "\nPlease enter the ID of the post: " << choice;
 
         char tempInput;
-        tempInput = tolower(getch());
+        tempInput = Helper::getInstance()->getch();
 
         switch (tempInput)
         {
@@ -67,7 +67,7 @@ void User::choosePost()
             for (auto &post : user->getPosts())
                 if (stoi(choice) == post->getId())
                 {
-                    post->detailedView();
+                    post->showDetailedView();
                     break;
                 }
 
@@ -75,7 +75,7 @@ void User::choosePost()
             for (auto &post : page->getPosts())
                 if (stoi(choice) == post->getId())
                 {
-                    post->detailedView();
+                    post->showDetailedView();
                     break;
                 }
 
@@ -83,7 +83,7 @@ void User::choosePost()
     }
 }
 
-void User::makeFriends()
+void User::addFriendsMenu()
 {
     std::string choice = "";
     std::string status = "";
@@ -108,7 +108,7 @@ void User::makeFriends()
 
         std::cout << "\n\nPlease enter the ID of the friend you want to add: " << choice;
 
-        char tempInput = getch();
+        char tempInput = Helper::getInstance()->getch();
 
         switch (tempInput)
         {
@@ -161,7 +161,7 @@ void User::makeFriends()
     }
 }
 
-void User::removeFriend()
+void User::removeFriendsMenu()
 {
     std::string choice = "";
     std::string status = "";
@@ -177,7 +177,7 @@ void User::removeFriend()
 
         std::cout << "\n\nPlease enter the ID of the friend you want to remove: " << choice;
 
-        char tempInput = tolower(getch());
+        char tempInput = Helper::getInstance()->getch();
 
         switch (tempInput)
         {
@@ -250,14 +250,14 @@ void User::showFriends()
 
         if (choice == 'r' && friends.size() != 0)
         {
-            removeFriend();
+            removeFriendsMenu();
             choice = 'a';
             continue;
         }
 
         if (choice == 'n' && friends.size() != App::userMap.size())
         {
-            makeFriends();
+            addFriendsMenu();
             choice = 'a';
             continue;
         }
@@ -267,7 +267,7 @@ void User::showFriends()
             std::cout << "\nPlease enter the ID of the friend you want to view: " << friendID;
 
             char tempInput;
-            tempInput = getch();
+            tempInput = Helper::getInstance()->getch();
 
             switch (tempInput)
             {
@@ -306,12 +306,12 @@ void User::showFriends()
 
         else
         {
-            choice = tolower(getch());
+            choice = tolower(Helper::getInstance()->getch());
         }
     }
 }
 
-void User::dislikePage() {
+void User::dislikePagesMenu() {
     std::string choice = "";
     std::string status = "";
     while (1)
@@ -326,7 +326,7 @@ void User::dislikePage() {
 
         std::cout << "\n\nPlease enter the ID of the page you want to dislike: " << choice;
 
-        char tempInput = tolower(getch());
+        char tempInput = Helper::getInstance()->getch();
 
         switch (tempInput)
         {
@@ -361,7 +361,7 @@ void User::dislikePage() {
     }
 }
 
-void User::pagesMenu() {
+void User::likePagesMenu() {
     std::string choice = "";
     std::string status = "";
     while (1)
@@ -385,7 +385,7 @@ void User::pagesMenu() {
 
         std::cout << "\n\nPlease enter the ID of the page you want to like: " << choice;
 
-        char tempInput = getch();
+        char tempInput = Helper::getInstance()->getch();
 
         switch (tempInput)
         {
@@ -475,14 +475,14 @@ void User::showPages()
 
         if (choice == 'r' && friends.size() != 0)
         {
-            dislikePage();
+            dislikePagesMenu();
             choice = 'a';
             continue;
         }
 
         if (choice == 'n' && friends.size() != App::userMap.size())
         {
-            pagesMenu();
+            likePagesMenu();
             choice = 'a';
             continue;
         }
@@ -492,7 +492,7 @@ void User::showPages()
             std::cout << "\nPlease enter the ID of the page you want to view: " << pageID;
 
             char tempInput;
-            tempInput = getch();
+            tempInput = Helper::getInstance()->getch();
 
             switch (tempInput)
             {
@@ -530,7 +530,7 @@ void User::showPages()
 
         else
         {
-            choice = tolower(getch());
+            choice = tolower(Helper::getInstance()->getch());
         }
     }
 }

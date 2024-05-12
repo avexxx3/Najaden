@@ -8,13 +8,14 @@
 #include "Headers/User.hpp"
 
 Page::Page(int id, User *owner, std::string title)
-: Entity(id, title), owner(owner) {}
+    : Entity(id, title), owner(owner) {}
 
-
-int Page::getLikes() const {
+int Page::getLikes() const
+{
     return likes;
 }
 
-User *Page::getOwner() const {
-    return owner; 
+User *Page::getOwner() const
+{
+    return owner;
 }

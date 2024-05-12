@@ -8,10 +8,6 @@
 #include "Comment.hpp"
 #include "Page.hpp"
 
-class User;
-class Comment;
-class Page;
-
 class Post : public Object
 {
     std::string text;
@@ -24,15 +20,16 @@ class Post : public Object
     int likes = 0;
 
 public:
-    Post(int id, std::string text, int likes, Entity* author, std::vector<User *> likedBy, std::string date, int activityType, std::string activityValue);
+    Post(int, std::string, int, Entity *, std::vector<User *>, std::string, int, std::string);
 
     void printPost(bool = 0);
 
-    void addLike(User *newLike);
-    void addComment(Comment *newComment);
-    void detailedView();
+    void addLike(User *);
+    void removeLike(User *);
 
-    void dislike(User*);
+    void addComment(Comment *);
+
+    void showDetailedView();
 
     std::string getText() const;
     int getLikes() const;

@@ -25,12 +25,12 @@ void Post::addComment(Comment *newComment)
         std::cout << "Maximum numbers of comments exceeded for postID: " << getId() << '\n';
 }
 
-void Post::dislike(User *newUser)
+void Post::removeLike(User *newUser)
 {
     likedBy.erase(std::find(likedBy.begin(), likedBy.end(), newUser));
 }
 
-void Post::detailedView()
+void Post::showDetailedView()
 {
     char choice;
 
@@ -141,7 +141,7 @@ void Post::detailedView()
 
         if (choice == 'u' && contains)
         {
-            dislike(App::currentUser);
+            removeLike(App::currentUser);
             contains = 0;
             newLike = 1;
             choice = 'a';

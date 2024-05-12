@@ -12,11 +12,6 @@
 #include "Helper.hpp"
 #include "Login.hpp"
 
-class User;
-class Post;
-class Comment;
-class Page;
-
 class App
 {
     Login login;
@@ -44,7 +39,6 @@ public:
     static std::unordered_map<std::string, LoginData> loginMap; // Username and password
     static User *currentUser;
 
-    App();
     void run();
     ~App();
 };

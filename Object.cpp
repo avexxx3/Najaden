@@ -2,8 +2,9 @@
 #include "Headers/Object.hpp"
 
 Object::Object(int id)
-: id(id) {}
+    : id(id) {}
 
-int Object::getId() {
+int Object::getId()
+{
     return id;
 }

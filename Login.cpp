@@ -160,8 +160,8 @@ bool Login::promptCreate()
         status[0] = "Account not found.";
         status[1] = "Would you like to create one? (y/n)";
         printLogin();
-        choice = getch();
-        switch (tolower(choice))
+        choice = tolower(Helper::getInstance()->getch());
+        switch (choice)
         {
         case 'y':
         {
@@ -185,8 +185,9 @@ void Login::loginUser()
         while (isLogging)
         {
             printLogin();
-            choice = getch();
-            switch (tolower(choice))
+            choice = tolower(Helper::getInstance()->getch());
+            
+            switch (choice)
             {
             case 'a' ... 'z':
             case '0' ... '9':
@@ -222,8 +223,8 @@ void Login::loginUser()
         while (isPasswording)
         {
             printLogin();
-            choice = getch();
-            switch (tolower(choice))
+            choice = tolower(Helper::getInstance()->getch());
+            switch (choice)
             {
             case 'a' ... 'z':
             case '0' ... '9':
@@ -276,7 +277,8 @@ void Login::loginAnimation()
     system("clear");
 }
 
-void Login::loginScreen() {
+void Login::loginScreen()
+{
     comeSailAway();
     startupAnimation();
     loginUser();

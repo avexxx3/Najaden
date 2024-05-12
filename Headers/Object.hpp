@@ -1,8 +1,10 @@
 #pragma once
-class Object{
+class Object
+{
     int id;
 
-    public:
-    Object(int id);
+public:
+    Object(int);
+    
     int getId();
 };

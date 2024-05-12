@@ -17,10 +17,13 @@ class Entity : public Object
     std::string type;
 
 public:
-    Entity(int id = 0, std::string name = "", std::string type = "");
-    void postPost(Post *post);
-    std::string getName() const;
-    std::vector<Post *> getPosts() const;
-    std::string getType() const;
+    Entity(int = 0, std::string = "", std::string = "");
+    
     void showProfile();
+    
+    void addPost(Post *post);
+
+    std::string getName() const;
+    std::string getType() const;
+    std::vector<Post *> getPosts() const;
 };

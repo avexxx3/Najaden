@@ -7,17 +7,16 @@
 #include "Post.hpp"
 #include "Page.hpp"
 
-class User;
-class Post;
-class Page;
-
-class Comment: public Object {
+class Comment : public Object
+{
     std::string text;
-    User* author;
+    User *author;
 
-    public:
-    Comment(int id, std::string text, User* author);
-    std::string getText() const;
-    User* getAuthor() const;
+public:
+    Comment(int, std::string, User *);
+
     void printComment() const;
+
+    std::string getText() const;
+    User *getAuthor() const;
 };
