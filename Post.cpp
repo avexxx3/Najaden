@@ -12,13 +12,15 @@ void Post::addLike(User *newLike)
     {
         likedBy.emplace_back(newLike);
         likes++;
+        
     }
 }
 
 void Post::addComment(Comment *newComment)
 {
-    if (comments.size() < 10)
+    if (comments.size() < 10) {
         comments.emplace_back(newComment);
+    }
 }
 
 void Post::removeLike(User *newUser)
@@ -125,6 +127,7 @@ void Post::showDetailedView()
                 i++;
             Comment *newComment = new Comment(i, comment, App::currentUser);
             addComment(newComment);
+            Helper::getInstance()->writeComments();
             comment = "";
         }
 
@@ -137,6 +140,7 @@ void Post::showDetailedView()
         if (choice == 'l' && newLike)
         {
             addLike(App::currentUser);
+            Helper::getInstance()->writePosts();
             contains = 1;
             newLike = 0;
             choice = 'a';
@@ -145,6 +149,7 @@ void Post::showDetailedView()
         if (choice == 'u' && contains)
         {
             removeLike(App::currentUser);
+            Helper::getInstance()->writePosts();
             contains = 0;
             newLike = 1;
             choice = 'a';
@@ -156,6 +161,7 @@ void Post::showDetailedView()
 
 void Post::printPost(bool showId, bool self)
 {
+    std::cout << "= ";
     if (showId)
         std::cout << getId() << " - ";
     

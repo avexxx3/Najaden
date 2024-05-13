@@ -167,6 +167,7 @@ void User::addFriendsMenu()
                     break;
 
                 App::currentUser->addFriend(user.second);
+                Helper::getInstance()->writeUsers();
                 return;
             }
 
@@ -375,6 +376,7 @@ void User::dislikePagesMenu()
             if (realFriend->getId() == stoi(choice))
             {
                 likedPages.erase(std::find(likedPages.begin(), likedPages.end(), realFriend));
+                Helper::getInstance()->writePages();
                 return;
             }
         }
@@ -389,15 +391,18 @@ void User::showProfile()
     {
         system("clear");
         std::cout << "Press ESC to go back.\nPress 'P' to create a new post.\nPress 'M' to share a post as a memory\n\n\n";
-        std::cout << getName() << "'s Profile\n\n\nPOSTS:\n\n";
+        std::cout << "\t\t\t" << getName() << "'s Profile";
 
+        std::cout << "\n\t\t\t\t\t\t\t\t.--.                 .        \n\t\t\t\t\t\t\t\t|   )               _|_       \n\t\t\t\t\t\t\t\t|--'    .-.   .--.   |    .--.\n\t\t\t\t\t\t\t\t|      (   )  `--.   |    `--.\n\t\t\t\t\t\t\t\t'       `-'   `--'   `-'  `--'\n\n\n";
+
+        
         for (auto &post : getPosts())
         {
             if (!post->getMemory())
                 post->printPost();
         }
 
-        std::cout << "MEMORIES:\n\n";
+        std::cout << "\n\t\t\t\t\t\t.    .                                                  \n\t\t\t\t\t\t|\\  /|                                  o               \n\t\t\t\t\t\t| \\/ |   .-.   .--.--.    .-.   .--.    .     .-.   .--.\n\t\t\t\t\t\t|    |  (.-'   |  |  |   (   )  |       |    (.-'   `--.\n\t\t\t\t\t\t'    '   `--'  '  '  `-   `-'   '     -' `-   `--'  `--'\n\n\n";
 
         for (auto &post : getPosts())
         {
@@ -497,6 +502,7 @@ void User::showProfile()
                 Post *newPost = new Post(i, text, 0, this, {}, Helper::getInstance()->getCurrentDate(), activityType, activityValue);
                 App::postMap.insert({i, newPost});
                 addPost(newPost);
+                Helper::getInstance()->writePosts();
                 break;
             }
             choice = 'a';
@@ -546,6 +552,7 @@ void User::showProfile()
                     if (post->getId() == stoi(ID))
                     {
                         post->setMemory();
+                        Helper::getInstance()->writePosts();
                         valid = 1;
                     }
                 }
@@ -556,10 +563,6 @@ void User::showProfile()
             choice = ' ';
         }
     }
-}
-
-void newPost()
-{
 }
 
 void User::likePagesMenu()
@@ -631,6 +634,7 @@ void User::likePagesMenu()
                     break;
 
                 likePage(user.second);
+                Helper::getInstance()->writePages();
                 return;
             }
 
@@ -745,7 +749,7 @@ void User::printHome()
 {
     system("clear");
     std::cout << "Welcome, " << getName() << "\n\n";
-    std::cout << "Press ESC to save any and all changes.\nPress 'U' to view profile.\nPress 'F' to view friends.\nPress 'D' to view a post in detail.\nPress 'P' to view pages\n\n";
+    std::cout << "Press ESC to logout.\nPress 'U' to view profile.\nPress 'F' to view friends.\nPress 'D' to view a post in detail.\nPress 'P' to view pages\n\n";
     showPosts(0, 1);
 }
 

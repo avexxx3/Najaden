@@ -31,7 +31,6 @@ class App
 
     void appLoop();
 
-
 public:
     static std::unordered_map<int, User *> userMap; // uID, and User
     static std::unordered_map<int, Page *> pageMap; // uID, and Page

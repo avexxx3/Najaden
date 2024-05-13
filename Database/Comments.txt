@@ -1,7 +1,10 @@
 CommentID; PostID; UserID; Text;
-2;5;2;I was crazy once;
-3;3;4;KINOOOOOOO;
-1;2;4;Real asf;
+8;15;8;he said a glass of juice not gas the joos;
+7;14;4;Test;
+7;14;4;ajdsalkjd;
 4;1;4;What's wrong my dear?;
 5;1;5;Kill all the Japanese;
 6;1;8;Back to the cottonfields;
+1;2;4;Real asf;
+3;3;4;KINOOOOOOO;
+2;5;2;I was crazy once;

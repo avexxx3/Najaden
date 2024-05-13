@@ -12,11 +12,13 @@ class Login
 {
     std::string *najaden;
     std::string userLogin = "";
+    std::string userName = "";
     std::string userPassword = "";
     std::string status[2] = {"", ""};
 
     bool isLogging = false;
     bool isPasswording = false;
+    bool isCreating = false;
 
     void comeSailAway();
     void printNajaden(int = -1, std::string = "", int = 0, int = 0);

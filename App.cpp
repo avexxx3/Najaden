@@ -141,7 +141,10 @@ void App::addPost(std::string fullLine, bool isPage)
 
     std::string text = splitString[2];
     bool isMemory;
-    if(splitString[3] == "0") isMemory = 0; else isMemory = 1; 
+    if (splitString[3] == "0")
+        isMemory = 0;
+    else
+        isMemory = 1;
     std::string dateText = splitString[4];
     std::vector<std::string> likedBy = Helper::getInstance()->split(splitString[5], ','); // Get the uID of all post likers
     int actType = 0;
@@ -162,7 +165,7 @@ void App::addPost(std::string fullLine, bool isPage)
             likedByUsers.emplace_back(userMap.at(std::stoi(uID)));
     }
 
-    Date* date = new Date(stoi(dateText.substr(0, 2)), stoi(dateText.substr(2, 2)), stoi(dateText.substr(4, 2)), stoi(dateText.substr(6, 2)), stoi(dateText.substr(8, 2)));
+    Date *date = new Date(stoi(dateText.substr(0, 2)), stoi(dateText.substr(2, 2)), stoi(dateText.substr(4, 2)), stoi(dateText.substr(6, 2)), stoi(dateText.substr(8, 2)));
 
     Post *newPost = new Post(id, text, likedByUsers.size(), author, likedByUsers, date, actType, actValue, isMemory);
 
@@ -256,9 +259,12 @@ void App::appLoop()
             break;
         }
 
-        case 27: {
-            Helper::getInstance()->writeData();
-            break;
+        case 27:
+        {
+            system("clear");
+            std::cout << "Are you sure you want to logout?\nPress 'X' to logout, otherwise, press any key\n";
+            if(tolower(Helper::getInstance()->getch()) == 'x') return;
+            continue; 
         }
 
         case 'p':
@@ -275,8 +281,11 @@ void App::appLoop()
 void App::run()
 {
     cacheData();
-    currentUser = userMap.at(2);
-    appLoop();
+    while (1)
+    {
+        login.loginScreen();
+        appLoop();
+    }
 }
 
 App::~App()
