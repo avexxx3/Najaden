@@ -12,3 +12,10 @@ Najaden is a social media application built on C++, as a project for my Object O
 - Like a page from a selection of pre-existing pages
 - Like comments and dislike them as you will
 - Write the data locally as soon as an action is performed
+
+## Build
+Clone the repository using `git clone https://github.com/avexxx3/Najaden` or either download the source code as a zip.
+Execute the main.cpp file either by running through an IDE or running the command `g++ main.cpp -o .najadenmain && ./.najadenmain`.
+
+## Disclaimer
+    The owners do not take responsibility for any data leakage, and any or all risks associated are upheld through your ownself.
