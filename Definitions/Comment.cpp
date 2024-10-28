@@ -1,11 +1,11 @@
 #pragma once
-#include "Headers/App.hpp"
-#include "Headers/Comment.hpp"
-#include "Headers/Helper.hpp"
-#include "Headers/Object.hpp"
-#include "Headers/Page.hpp"
-#include "Headers/Post.hpp"
-#include "Headers/User.hpp"
+#include "../Headers/App.hpp"
+#include "../Headers/Comment.hpp"
+#include "../Headers/Helper.hpp"
+#include "../Headers/Object.hpp"
+#include "../Headers/Page.hpp"
+#include "../Headers/Post.hpp"
+#include "../Headers/User.hpp"
 
 Comment::Comment(int id, std::string text, User *author)
     : Object(id), text(text), author(author) {}

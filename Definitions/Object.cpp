@@ -1,5 +1,5 @@
 #pragma once
-#include "Headers/Object.hpp"
+#include "../Headers/Object.hpp"
 
 Object::Object(int id)
     : id(id) {}

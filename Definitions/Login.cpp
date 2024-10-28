@@ -1,6 +1,6 @@
 #pragma once
-#include "Headers/Login.hpp"
-#include "Headers/App.hpp"
+#include "../Headers/Login.hpp"
+#include "../Headers/App.hpp"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -157,8 +157,7 @@ void Login::startupAnimation()
 bool Login::promptCreate()
 {
     char choice;
-    while (1)
-    {
+    while (1) {
         status[0] = "Account not found.";
         status[1] = "Would you like to create one? (y/n)";
         printLogin();

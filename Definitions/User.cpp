@@ -1,7 +1,7 @@
 #pragma once
-#include "Headers/User.hpp"
-#include "Headers/Helper.hpp"
-#include "Headers/App.hpp"
+#include "../Headers/User.hpp"
+#include "../Headers/Helper.hpp"
+#include "../Headers/App.hpp"
 #include <algorithm>
 
 User::User(int id, std::string name, std::string username, std::vector<std::string> temporaryFriends)
@@ -750,6 +750,7 @@ void User::printHome()
     system("clear");
     std::cout << "Welcome, " << getName() << "\n\n";
     std::cout << "Press ESC to logout.\nPress 'U' to view profile.\nPress 'F' to view friends.\nPress 'D' to view a post in detail.\nPress 'P' to view pages\n\n";
+    std::cout << "\t\t\t\t\t.   .                        \n\t\t\t\t\t|   |                        \n\t\t\t\t\t|---|   .-.   .--.--.    .-. \n\t\t\t\t\t|   |  (   )  |  |  |   (.-' \n\t\t\t\t\t'   '   `-'   '  '  `-   `--'\n\n\n";
     showPosts(0, 1);
 }
 

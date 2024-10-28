@@ -1,10 +1,13 @@
 CommentID; PostID; UserID; Text;
+11;18;14;I'm happy for you brother;
+10;8;4;There iss a comment;
 8;15;8;he said a glass of juice not gas the joos;
+3;3;4;KINOOOOOOO;
 7;14;4;Test;
 7;14;4;ajdsalkjd;
+9;14;12;This is a comment;
 4;1;4;What's wrong my dear?;
 5;1;5;Kill all the Japanese;
 6;1;8;Back to the cottonfields;
 1;2;4;Real asf;
-3;3;4;KINOOOOOOO;
 2;5;2;I was crazy once;

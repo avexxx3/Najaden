@@ -12,8 +12,8 @@ class Login
 {
     std::string *najaden;
     std::string userLogin = "";
-    std::string userName = "";
     std::string userPassword = "";
+    std::string userName = "";
     std::string status[2] = {"", ""};
 
     bool isLogging = false;

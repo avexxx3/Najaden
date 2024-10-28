@@ -1,6 +1,6 @@
 #pragma once
-#include "Headers/Post.hpp"
-#include "Headers/App.hpp"
+#include "../Headers/Post.hpp"
+#include "../Headers/App.hpp"
 #include <algorithm>
 
 Post::Post(int id, std::string text, int likes, Entity *author, std::vector<User *> likedBy, Date* date, int activityType, std::string activityValue, bool isMemory)
@@ -161,14 +161,13 @@ void Post::showDetailedView()
 
 void Post::printPost(bool showId, bool self)
 {
-    std::cout << "= ";
+    std::cout << "+ ";
     if (showId)
         std::cout << getId() << " - ";
     
     if(self) std::cout << "You ";
     else std::cout << author->getName() << ' '; 
 
-    //1. Feeling\n2. Thinking about\n3. Making\n4. Celebrating
     if(activityType != 0 && activityValue != "") {
         if(self) std::cout << "are "; else std::cout << "is ";
         switch(activityType) {
@@ -188,7 +187,7 @@ void Post::printPost(bool showId, bool self)
         comment->printComment();
     }
     std::cout << "Likes: " << likes;
-    std::cout << "\n\n";
+    std::cout << "\n\n\n";
 }
 
 Entity* Post::getAuthor() const {

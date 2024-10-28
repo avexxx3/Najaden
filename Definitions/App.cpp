@@ -1,13 +1,12 @@
 #pragma once
-#include "Headers/App.hpp"
-#include "Headers/Comment.hpp"
-#include "Headers/Helper.hpp"
-#include "Headers/Object.hpp"
-#include "Headers/Page.hpp"
-#include "Headers/Post.hpp"
-#include "Headers/User.hpp"
-#include "Login.cpp"
-#include "Headers/Login.hpp"
+#include "../Headers/App.hpp"
+#include "../Headers/Comment.hpp"
+#include "../Headers/Helper.hpp"
+#include "../Headers/Object.hpp"
+#include "../Headers/Page.hpp"
+#include "../Headers/Post.hpp"
+#include "../Headers/User.hpp"
+#include "../Headers/Login.hpp"
 #include <math.h>
 
 void App::initalizeUsers()
