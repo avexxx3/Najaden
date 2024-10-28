@@ -17,5 +17,9 @@ Najaden is a social media application built on C++, as a project for my Object O
 Clone the repository using `git clone https://github.com/avexxx3/Najaden` or either download the source code as a zip.
 Execute the main.cpp file either by running through an IDE or running the command `g++ main.cpp -o .najadenmain && ./.najadenmain` inside the same folder as the main.cpp.
 
+## Demonstration
+(GIF bomb)
+<img src="https://raw.githubusercontent.com/avexxx3/Najaden/refs/heads/main/.github/demonstration.gif">
+
 ## Disclaimer
     The owners do not take responsibility for any data leakage, and any or all risks associated are upheld through your ownself.
